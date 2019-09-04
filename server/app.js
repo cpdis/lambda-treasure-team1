@@ -44,3 +44,16 @@ treasureHunt
     coolDown = currentRoom.cooldown;
   })
   .catch(err => console.error(err));
+
+// This function will hold all of the actual logic for moving through
+// the map, picking things up, selling things, etc. and should continue
+// until map.length==500
+adventure = () => {
+  console.log("It's time to go on an adventure...");
+};
+
+// Run the adventure function (while will continue till map.length==500)
+// while waiting the correct amount of time between each move
+setTimeout(() => {
+  adventure();
+}, coolDown * 1000);
