@@ -95,6 +95,7 @@ adventure = () => {
   console.log("The remaining unexplored rooms are: ", unexplored_rooms);
 
   // Helper functions for picking up treasure, selling treasure, and checking inventory/status
+  //   TODO: Add POST requests for picking up treasure and selling treasure
   const takeTreasure = treasure => {};
   const sellTreasure = inventory => {};
 
@@ -163,6 +164,8 @@ adventure = () => {
         map[new_room_id][reverse_move] = previous_room_id;
 
         console.log("The map now looks like this:\n", map);
+
+        // TODO: Add if statements for picking up treasure, selling inventory, praying at shrine, changing name, and potentially other actions
 
         // Set the cooldown to the current room's cool down length
         coolDown = res.data.cooldown;
