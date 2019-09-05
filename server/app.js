@@ -77,7 +77,7 @@ adventure = () => {
   console.log("The map length is now: ", Object.keys(map).length);
 
   //   Add unexplored exits to the map with a X
-  currentRoom.forEach(exit => {
+  currentRoom.exits.forEach(exit => {
     if (map[room_id][exit] == undefined) {
       map[room_id][exit] == "X";
     }
@@ -154,7 +154,7 @@ adventure = () => {
         console.log("The map length is now: ", Object.keys(map).length);
 
         // Add unexplored exits for the new room to the map with a X
-        currentRoom.forEach(exit => {
+        currentRoom.exits.forEach(exit => {
           if (map[new_room_id][exit] == undefined) {
             map[new_room_id][exit] == "X";
           }
