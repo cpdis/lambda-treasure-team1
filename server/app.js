@@ -124,8 +124,30 @@ adventure = () => {
   } else if (unexplored_rooms == 0 && reversePath.length) {
     console.log("Dead end :skull-emoji:"); // TODO: Add skull emoji
     // Get last move from reversePath array
+    let reversed_path = reversePath.pop();
+
     // Add the reversed move to the traversalPath
+    traversalPath.push(reversed_path);
+
     // Use setTimeout and POST('move') to move to the reversed room
+    setTimeout(() => {
+      treasureHunt
+        .post("move", { direction: reversed_path })
+        .then(res => {
+          currentRoom = res.data;
+          coolDown = res.data.cooldown;
+          console.log("Currently in room ", currentRoom.room_id);
+
+          if (Object.keys(map).length !== 500) {
+            setTimeout(() => {
+              adventure();
+            }, coolDown * 1000);
+          }
+        })
+        .catch(err =>
+          console.log("There was a problem reversing out of a dead end: ", err)
+        );
+    });
   } else if (unexplored_rooms == 0 && reversePath.length == 0) {
     console.log(
       "It looks like you've explored the whole map...congratulations! :confetti:\nJust to be sure, the current map length is: ", // TODO: Add confetti emoji
