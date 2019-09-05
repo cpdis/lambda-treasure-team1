@@ -27,7 +27,7 @@ const reverse = direction => {
   return result;
 };
 
-// Initialize
+// Initialize: this will just return the first room (room_id = 0)
 treasureHunt
   .get("init")
   .then(res => {
@@ -54,7 +54,8 @@ adventure = () => {
   let room_id = currentRoom.room_id;
   let unexplored_rooms = [];
 
-  // Create a function to move between rooms and pause for cool down
+  // Create a helper function to move between rooms and pause for cool down
+  // This uses the move() function from graph.js to move between the current and target room
   const toRoom = (current_room_id, target_room_id) => {
     const directions = move(current_room_id, target_room_id);
 
@@ -156,6 +157,8 @@ adventure = () => {
 
         // Update new rooms reverse_move room with the previous_room_id
         map[new_room_id][reverse_move] = previous_room_id;
+
+        console.log("The map now looks like this:\n", map);
 
         // Set the cooldown to the current room's cool down length
         coolDown = res.data.cooldown;
