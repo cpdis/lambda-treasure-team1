@@ -155,8 +155,8 @@ adventure = () => {
 
         // Add unexplored exits for the new room to the map with a X
         currentRoom.exits.forEach(exit => {
-          if (map[new_room_id][exit] == undefined) {
-            map[new_room_id][exit] == "X";
+          if (map[new_room_id][exit.toString()] == undefined) {
+            map[new_room_id][exit.toString()] == "X";
           }
         });
 
