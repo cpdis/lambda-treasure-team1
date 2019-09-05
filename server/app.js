@@ -107,6 +107,14 @@ adventure = () => {
   TODO: Add in the logic that picks up treasure, etc.
   */
 
+  if (unexplored_rooms > 0) {
+
+  } else if (unexplored_rooms == 0 && reversePath.length) {
+
+  } else if (unexplored_rooms == 0 && reversePath.length == 0) {
+      
+  }
+
 };
 
 // Run the adventure function (while will continue till map.length==500)
