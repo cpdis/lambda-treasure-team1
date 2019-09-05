@@ -52,6 +52,7 @@ adventure = () => {
   console.log("It's time to go on an adventure...");
 
   let room_id = currentRoom.room_id;
+  let unexplored_rooms = [];
 
   // Create a function to move between rooms and pause for cool down
   const toRoom = (current_room_id, target_room_id) => {
@@ -71,6 +72,41 @@ adventure = () => {
   if (!map[room_id]) {
     map[room_id] = {};
   }
+
+  console.log("The map length is now: ", Object.keys(map).length);
+
+  //   Add unexplored exits to the map with a X
+  currentRoom.forEach(exit => {
+    if (map[room_id][exit] == undefined) {
+      map[room_id][exit] == "X";
+    }
+  });
+
+  console.log("The map now looks like this:\n", map);
+
+  //   Create array of unexplored rooms
+  for (let key in map[room_id]) {
+    if (map[room_id][key] == "X") {
+      unexplored_rooms.push(key);
+    }
+  }
+
+  console.log("The remaining unexplored rooms are: ", unexplored_rooms);
+
+  /* 
+  The following conditional will handle:
+  1. Free movement: there is nothing stopping the explorer from moving to another room
+  2. Dead end: the explorer can reverse his/her path until a room has an unexplored exit
+  3. Dead end at start: the whole map should have been traversed
+
+  Based on the above, the if statements should have these conditions:
+  1. unexplored_rooms > 0
+  2. unexplored_rooms == 0 && reversePath.length
+  3. unexplored_rooms == 0 && reversePath.length == 0
+
+  TODO: Add in the logic that picks up treasure, etc.
+  */
+
 };
 
 // Run the adventure function (while will continue till map.length==500)
