@@ -50,6 +50,27 @@ treasureHunt
 // until map.length==500
 adventure = () => {
   console.log("It's time to go on an adventure...");
+
+  let room_id = currentRoom.room_id;
+
+  // Create a function to move between rooms and pause for cool down
+  const toRoom = (current_room_id, target_room_id) => {
+    const directions = move(current_room_id, target_room_id);
+
+    directions.forEach(direction => {
+      setTimeout(() => {
+        treasureHunt.post("move", { direction }).then(res => {
+          coolDown = res.data.coolDown;
+          currentRoom = res.data;
+        });
+      }, coolDown * 1000);
+    });
+  };
+
+  //   Check if the current room is in the map object, and if not, add it
+  if (!map[room_id]) {
+    map[room_id] = {};
+  }
 };
 
 // Run the adventure function (while will continue till map.length==500)
