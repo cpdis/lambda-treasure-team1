@@ -94,6 +94,10 @@ adventure = () => {
 
   console.log("The remaining unexplored rooms are: ", unexplored_rooms);
 
+  // Helper functions for picking up treasure, selling treasure, and checking inventory/status
+  const takeTreasure = treasure => {};
+  const sellTreasure = inventory => {};
+
   /* 
   The following conditional will handle:
   1. Free movement: there is nothing stopping the explorer from moving to another room
