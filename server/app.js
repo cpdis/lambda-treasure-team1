@@ -51,8 +51,8 @@ treasureHunt
 adventure = () => {
   console.log("It's time to go on an adventure...");
 
-  let room_id = currentRoom.room_id;
-  let unexplored_rooms = [];
+  let room_ID = currentRoom.room_id;
+  var unexplored_rooms = [];
 
   // Create a helper function to move between rooms and pause for cool down
   // This uses the move() function from graph.js to move between the current and target room
@@ -70,24 +70,24 @@ adventure = () => {
   };
 
   //   Check if the current room is in the map object, and if not, add it
-  if (!map[room_id]) {
-    map[room_id] = {};
+  if (!map[room_ID]) {
+    map[room_ID] = {};
   }
 
   console.log("The map length is now: ", Object.keys(map).length);
 
   //   Add unexplored exits to the map with a X
   currentRoom.exits.forEach(exit => {
-    if (map[room_id][exit] == undefined) {
-      map[room_id][exit] == "X";
+    if (map[room_ID][exit.toString()] == undefined) {
+      map[room_ID][exit.toString()] == "X";
     }
   });
 
   console.log("The map now looks like this:\n", map);
 
   //   Create array of unexplored rooms
-  for (let key in map[room_id]) {
-    if (map[room_id][key] == "X") {
+  for (var key in map[room_ID]) {
+    if (map[room_ID][key] == "X") {
       unexplored_rooms.push(key);
     }
   }
@@ -137,7 +137,7 @@ adventure = () => {
     setTimeout(() => {
       treasureHunt.post("move", { direction: move_forward }).then(res => {
         // Save room_id to previous_room_id and set new currentRoom
-        let previous_room_id = room_id;
+        let previous_room_id = room_ID;
         currentRoom = res.data;
 
         // Update the map with the path forward from the previous room
