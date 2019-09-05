@@ -109,9 +109,17 @@ adventure = () => {
 
   if (unexplored_rooms > 0) {
     console.log("Free to explore :running-man:");
-    //   Pick a room from the unexplored_rooms array
+    // Pick a room from the unexplored_rooms array
+    let move_forward = unexplored_rooms[0];
+    unexplored_rooms = [];
+
     // Add the next move to the traversalPath array
+    traversalPath.push(move_forward);
+
     // Add the opposite direction move to the reversePath array
+    let reverse_move = reverse(move_forward);
+    reversePath.push(reverse_move);
+
     /*
     Use setTimeout and POST('move') to move to the next room
 
@@ -120,6 +128,46 @@ adventure = () => {
     Add the opposite direction move to the map
     Change cool down to current room cool down
     */
+    setTimeout(() => {
+      treasureHunt.post("move", { direction: move_forward }).then(res => {
+        // Save room_id to previous_room_id and set new currentRoom
+        let previous_room_id = room_id;
+        currentRoom = res.data;
+
+        // Update the map with the path forward from the previous room
+        map[previous_room_id][move_forward] = currentRoom.room_id;
+
+        // Set a new room_id
+        let new_room_id = currentRoom.room_id;
+
+        // Check if the new_room_id is in the map object, and if not, add it
+        if (!map[new_room_id]) {
+          map[new_room_id] = {};
+        }
+
+        console.log("The map length is now: ", Object.keys(map).length);
+
+        // Add unexplored exits for the new room to the map with a X
+        currentRoom.forEach(exit => {
+          if (map[new_room_id][exit] == undefined) {
+            map[new_room_id][exit] == "X";
+          }
+        });
+
+        // Update new rooms reverse_move room with the previous_room_id
+        map[new_room_id][reverse_move] = previous_room_id;
+
+        // Set the cooldown to the current room's cool down length
+        coolDown = res.data.cooldown;
+
+        if (Object.keys(map).length !== 500) {
+          setTimeout(() => {
+            adventure();
+          }, coolDown * 1000);
+        }
+      });
+    });
+
     // Check if map.length == 500 and if not, loop through adventure() again
   } else if (unexplored_rooms == 0 && reversePath.length) {
     console.log("Dead end :skull-emoji:"); // TODO: Add skull emoji
@@ -153,7 +201,7 @@ adventure = () => {
       "It looks like you've explored the whole map...congratulations! :confetti:\nJust to be sure, the current map length is: ", // TODO: Add confetti emoji
       Object.keys(map).length
     );
-    // return map
+    return map;
   }
 };
 
