@@ -108,13 +108,31 @@ adventure = () => {
   */
 
   if (unexplored_rooms > 0) {
+    console.log("Free to explore :running-man:");
+    //   Pick a room from the unexplored_rooms array
+    // Add the next move to the traversalPath array
+    // Add the opposite direction move to the reversePath array
+    /*
+    Use setTimeout and POST('move') to move to the next room
 
+    Add the new room_id to the map
+    Add the exits to the map
+    Add the opposite direction move to the map
+    Change cool down to current room cool down
+    */
+    // Check if map.length == 500 and if not, loop through adventure() again
   } else if (unexplored_rooms == 0 && reversePath.length) {
-
+    console.log("Dead end :skull-emoji:"); // TODO: Add skull emoji
+    // Get last move from reversePath array
+    // Add the reversed move to the traversalPath
+    // Use setTimeout and POST('move') to move to the reversed room
   } else if (unexplored_rooms == 0 && reversePath.length == 0) {
-      
+    console.log(
+      "It looks like you've explored the whole map...congratulations! :confetti:\nJust to be sure, the current map length is: ", // TODO: Add confetti emoji
+      Object.keys(map).length
+    );
+    // return map
   }
-
 };
 
 // Run the adventure function (while will continue till map.length==500)
