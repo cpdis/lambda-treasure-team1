@@ -52,7 +52,7 @@ adventure = () => {
   console.log("It's time to go on an adventure...");
 
   let room_ID = currentRoom.room_id;
-  var unexplored_rooms = [];
+  let unexplored_rooms = [];
 
   // Create a helper function to move between rooms and pause for cool down
   // This uses the move() function from graph.js to move between the current and target room
@@ -79,7 +79,7 @@ adventure = () => {
   //   Add unexplored exits to the map with a X
   currentRoom.exits.forEach(exit => {
     if (map[room_ID][exit.toString()] == undefined) {
-      map[room_ID][exit.toString()] == "X";
+      map[room_ID][exit.toString()] = "?";
     }
   });
 
@@ -87,7 +87,7 @@ adventure = () => {
 
   //   Create array of unexplored rooms
   for (var key in map[room_ID]) {
-    if (map[room_ID][key] == "X") {
+    if (map[room_ID][key] == "?") {
       unexplored_rooms.push(key);
     }
   }
@@ -156,7 +156,7 @@ adventure = () => {
         // Add unexplored exits for the new room to the map with a X
         currentRoom.exits.forEach(exit => {
           if (map[new_room_id][exit.toString()] == undefined) {
-            map[new_room_id][exit.toString()] == "X";
+            map[new_room_id][exit.toString()] = "?";
           }
         });
 
