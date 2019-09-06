@@ -102,7 +102,6 @@ adventure = () => {
   console.log("The remaining unexplored rooms are:\n", unexplored_rooms);
 
   // Helper functions for picking up treasure, selling treasure, and checking inventory/status
-  //   TODO: Add POST requests for picking up treasure and selling treasure
   const takeTreasure = treasure => {
     if (!treasure.length) {
       setTimeout(() => {
@@ -201,6 +200,49 @@ adventure = () => {
         // Set a new room_id
         let new_room_id = currentRoom.room_id;
 
+        // Check if current room is the shop, and if so, try to sell available inventory
+        if (currentRoom.room_id === 1) {
+          setTimeout(() => {
+            treasureHunt
+              .post("status")
+              .then(res => {
+                treasure = [...res.data.inventory];
+                sellTreasure(treasure);
+              })
+              .catch(err =>
+                console.log("Error selling while on the map: ", err)
+              );
+          }, coolDown * 1000);
+        }
+
+        // Check if the room has items in it, and if so, pick them up
+        if (currentRoom.items.length) {
+          setTimeout(() => {
+            treasureHunt
+              .post("status")
+              .then(res => {
+                if (res.data.inventory.length < 10) {
+                  treasure = [...currentRoom.items];
+                  takeTreasure(treasure);
+                }
+              })
+              .catch(err =>
+                console.log("Error picking up treasure while on the map: ", err)
+              );
+          }, coolDown * 1000);
+        }
+
+        // Check if the currrent room allows you to change names
+        if (currentRoom.room_id === 467 && !name_changed) {
+          treasureHunt
+            .post("change_name", { name: "Colin Dismuke", confirm: "aye" })
+            .then(res => {
+              coolDown = res.data.cooldown;
+              name_changed = true;
+            })
+            .catch(err => console.log("Error changing names: ", err));
+        }
+
         // Check if the new_room_id is in the map object, and if not, add it
         if (!map[new_room_id]) {
           map[new_room_id] = {};
@@ -245,8 +287,6 @@ adventure = () => {
         );
 
         console.log("Finished writing map and graph data to disk.");
-
-        // TODO: Add if statements for picking up treasure, selling inventory, praying at shrine, changing name, and potentially other actions
 
         // Set the cooldown to the current room's cool down length
         coolDown = res.data.cooldown;
