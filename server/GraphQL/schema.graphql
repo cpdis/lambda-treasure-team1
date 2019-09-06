@@ -1,0 +1,49 @@
+# Init Return Object:
+
+#  init:  {
+#  room_id: 166,
+# title: 'Mt. Holloway',
+# description: 'You are at the base of a large, looming mountain.',
+# coordinates: '(62,52)',
+# elevation: 1,
+# terrain: 'MOUNTAIN',
+# players: [],
+# items: [ 'tiny treasure', 'tiny treasure', 'tiny treasure' ],
+# exits: [ 's', 'e', 'w' ],
+# cooldown: 1,
+# errors: [],
+# messages: []
+# }
+
+# Potential Types:
+
+# Room: Object!.
+
+# Title, Description, Coords, Terrain: String!.
+
+# Elevation, Cooldown(?): Int!
+
+# Players: [Player: Object]
+
+# Items: [Item: String!]
+
+# Exits: [Exit: String]
+
+# Errors: [Error: String]!
+
+# Messages: [Message: String]!
+
+type Room {
+    room_id: Int!
+    title: String!
+    description: String!
+    coordinates: String!
+    elevation: Int!
+    terrain: String!
+#    players: [Player!]
+#    items: [Item!]
+#    exits: [Exit]
+    cooldown: Int!
+#    errors: [Error]!
+#    messages: [Message]
+}

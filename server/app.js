@@ -102,56 +102,56 @@ adventure = () => {
   console.log("The remaining unexplored rooms are:\n", unexplored_rooms);
 
   // Helper functions for picking up treasure, selling treasure, and checking inventory/status
-  const takeTreasure = treasure => {
-    if (!treasure.length) {
-      setTimeout(() => {
-        treasureHunt
-          .post("status")
-          .then(res => {
-            coolDown = res.data.cooldown;
+  // const takeTreasure = treasure => {
+  //   if (!treasure.length) {
+  //     setTimeout(() => {
+  //       treasureHunt
+  //         .post("status")
+  //         .then(res => {
+  //           coolDown = res.data.cooldown;
+  //
+  //           if (res.data.inventory == 10) {
+  //             toRoom(currentRoom.room_ID, 1);
+  //           }
+  //         })
+  //         .catch(err => console.log("Error taking treasure: ", err));
+  //     }, coolDown * 1000);
+  //   }
+  //
+  //   setTimeout(() => {
+  //     treasureHunt
+  //       .post("take", { name: "treasure" })
+  //       .then(res => {
+  //         console.log("You found treasure.");
+  //         res.data.items.forEach(item => console.log(item));
+  //         coolDown = res.data.cooldown;
+  //         treasure.pop(0);
+  //         takeTreasure(treasure);
+  //       })
+  //       .catch(err => console.log("Error taking treasure: ", err));
+  //   }, coolDown * 1000);
+  // };
 
-            if (res.data.inventory == 10) {
-              toRoom(currentRoom.room_ID, 1);
-            }
-          })
-          .catch(err => console.log("Error taking treasure: ", err));
-      }, coolDown * 1000);
-    }
-
-    setTimeout(() => {
-      treasureHunt
-        .post("take", { name: "treasure" })
-        .then(res => {
-          console.log("You found treasure.");
-          res.data.items.forEach(item => console.log(item));
-          coolDown = res.data.cooldown;
-          treasure.pop(0);
-          takeTreasure(treasure);
-        })
-        .catch(err => console.log("Error taking treasure: ", err));
-    }, coolDown * 1000);
-  };
-
-  const sellTreasure = treasure => {
-    if (!treasure.length) {
-      if (!name_changed) {
-        toRoom(1, 467);
-      }
-      return;
-    }
-
-    setTimeout(() => {
-      treasureHunt
-        .post("sell", { name: "treasure", confirm: "yes" })
-        .then(res => {
-          res.data.items.forEach(item => console.log(item));
-          coolDown = res.data.cooldown;
-          treasure.pop(0);
-          sellTreasure(treasure);
-        })
-        .catch(err => console.log("Error selling inventory: ", err));
-    }, coolDown * 100);
-  };
+  // const sellTreasure = treasure => {
+  //   if (!treasure.length) {
+  //     if (!name_changed) {
+  //       toRoom(1, 467);
+  //     }
+  //     return;
+  //   }
+  //
+  //   setTimeout(() => {
+  //     treasureHunt
+  //       .post("sell", { name: "treasure", confirm: "yes" })
+  //       .then(res => {
+  //         res.data.items.forEach(item => console.log(item));
+  //         coolDown = res.data.cooldown;
+  //         treasure.pop(0);
+  //         sellTreasure(treasure);
+  //       })
+  //       .catch(err => console.log("Error selling inventory: ", err));
+  //   }, coolDown * 100);
+  // };
 
   /* 
   The following conditional will handle:
@@ -223,11 +223,11 @@ adventure = () => {
               .then(res => {
                 if (res.data.inventory.length < 10) {
                   treasure = [...currentRoom.items];
-                  takeTreasure(treasure);
+                  // takeTreasure(treasure);
                 }
               })
               .catch(err =>
-                console.log("Error picking up treasure while on the map: ", err)
+                console.log("Error picking up treasure while on the map: ", err.message)
               );
           }, coolDown * 1000);
         }
