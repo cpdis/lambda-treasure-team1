@@ -29,12 +29,9 @@ const CommandStyles = styled.div`
     background: #eee;
     height: 100%;
     .button {
-      ${"" /* border: 1px solid #000; */}
       font-size: 2.4rem;
       color: #333;
       font-weight: 700;
-      transition: all 0.2s;
-      cursor: pointer;
       width: 100%;
       height: 100%;
       display: flex;
