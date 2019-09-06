@@ -33,6 +33,20 @@
 
 # Messages: [Message: String]!
 
+enum Error {
+    String
+}
+
+enum Message {
+    String
+}
+
+enum Exit {
+    String
+}
+
+#scalar Item
+
 type Room {
     room_id: Int!
     title: String!
@@ -44,6 +58,6 @@ type Room {
 #    items: [Item!]
 #    exits: [Exit]
     cooldown: Int!
-#    errors: [Error]!
-#    messages: [Message]
+    errors: [Error]
+    messages: [Message]
 }
