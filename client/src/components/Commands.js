@@ -4,7 +4,7 @@ const Commands = () => {
   return (
     <CommandStyles>
       <div className="buttons">
-        <div className="button" onClick={() => this.handleManualMove("n")}>
+        <div className="button" onClick={() => this.handleMove("n")}>
           N
         </div>
       </div>
