@@ -113,8 +113,8 @@ adventure = () => {
   TODO: Add in the logic that picks up treasure, etc.
   */
 
-  if (unexplored_rooms > 0) {
-    console.log("Free to explore :running-man:");
+  if (unexplored_rooms.length > 0) {
+    console.log("Free to explore 🏃🏼‍♀️");
     // Pick a room from the unexplored_rooms array
     let move_forward = unexplored_rooms[0];
     unexplored_rooms = [];
@@ -179,8 +179,8 @@ adventure = () => {
     });
 
     // Check if map.length == 500 and if not, loop through adventure() again
-  } else if (unexplored_rooms == 0 && reversePath.length) {
-    console.log("Dead end :skull-emoji:"); // TODO: Add skull emoji
+  } else if (unexplored_rooms.length == 0 && reversePath.length) {
+    console.log("Dead end ☠️");
     // Get last move from reversePath array
     let reversed_path = reversePath.pop();
 
@@ -206,9 +206,9 @@ adventure = () => {
           console.log("There was a problem reversing out of a dead end: ", err)
         );
     });
-  } else if (unexplored_rooms == 0 && reversePath.length == 0) {
+  } else if (unexplored_rooms.length == 0 && reversePath.length == 0) {
     console.log(
-      "It looks like you've explored the whole map...congratulations! :confetti:\nJust to be sure, the current map length is: ", // TODO: Add confetti emoji
+      "It looks like you've explored the whole map...congratulations! 🎊\nJust to be sure, the current map length is: ", // TODO: Add confetti emoji
       Object.keys(map).length
     );
     return map;
