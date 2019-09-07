@@ -1,16 +1,22 @@
-import React from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
-const Commands = () => {
-  return (
-    <CommandStyles>
-      <div className="buttons">
-        <div className="button" onClick={() => this.handleMove("n")}>
-          N
+import Button from "./Buttons/Button";
+import UpdateCommands from "./withCommands";
+class Commands extends Component {
+  render() {
+    const { move } = this.props;
+    return (
+      <CommandStyles>
+        <div className="buttons">
+          <Button task={move} title={"N"} />
+          <Button task={move} title={"S"} />
+          <Button task={move} title={"E"} />
+          <Button task={move} title={"W"} />
         </div>
-      </div>
-    </CommandStyles>
-  );
-};
+      </CommandStyles>
+    );
+  }
+}
 
 export default Commands;
 
@@ -25,17 +31,8 @@ const CommandStyles = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 5%;
+    width: 25%;
     background: #eee;
     height: 100%;
-    .button {
-      font-size: 2.4rem;
-      color: #333;
-      font-weight: 700;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
   }
 `;
