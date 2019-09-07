@@ -4,7 +4,7 @@ import Button from "./Buttons/Button";
 import UpdateCommands from "./withCommands";
 class Commands extends Component {
   render() {
-    const { move } = this.props;
+    const { move, explore } = this.props;
     return (
       <CommandStyles>
         <div className="buttons">
@@ -12,6 +12,9 @@ class Commands extends Component {
           <Button task={move} title={"S"} />
           <Button task={move} title={"E"} />
           <Button task={move} title={"W"} />
+        </div>
+        <div className="buttons">
+          <Button task={explore} title={"Explore"} />
         </div>
       </CommandStyles>
     );
@@ -32,7 +35,6 @@ const CommandStyles = styled.div`
     justify-content: space-between;
     align-items: center;
     width: 25%;
-    background: #eee;
     height: 100%;
   }
 `;

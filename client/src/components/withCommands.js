@@ -11,6 +11,7 @@ const UpdateCommand = HOCComponent => {
     componentDidMount() {}
 
     handleMove = async () => {};
+    handleExplore = async () => {};
 
     render() {
       return <HOCComponent move={this.handleMove} />;
