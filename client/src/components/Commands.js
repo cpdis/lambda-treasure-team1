@@ -25,7 +25,7 @@ export default Commands;
 
 const CommandStyles = styled.div`
   width: 100%;
-  background: #ddd;
+  background: #1c1b1b;
   height: 60px;
   display: flex;
   align-items: center;

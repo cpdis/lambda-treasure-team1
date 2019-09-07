@@ -13,14 +13,20 @@ export default Button;
 
 const Buttons = styled.button`
   font-size: 2.4rem;
-  color: #333;
+  color: #fff;
   font-weight: 700;
   width: 100%;
-  background: #eee;
+  background: #595958;
   border: 1px dashed black;
   height: 100%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  &:hover,
+  &:focus {
+    color: #e64a02;
+    background: #292828;
+  }
 `;
