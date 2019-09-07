@@ -70,6 +70,8 @@ adventure = () => {
     });
   };
 
+  console.log("Currently in room:", currentRoom.room_id);
+
   //   Check if the current room is in the map object, and if not, add it
   if (!map[room_ID]) {
     map[room_ID] = {};
@@ -88,7 +90,7 @@ adventure = () => {
 
   graph[room_ID] = currentRoom;
 
-  console.log("The graph length is now: ", Object.keys(graph).length);
+  // console.log("The graph length is now: ", Object.keys(graph).length);
 
   // console.log("The whole  graph now looks like this:\n", graph);
 
@@ -114,7 +116,9 @@ adventure = () => {
               toRoom(currentRoom.room_ID, 1);
             }
           })
-          .catch(err => console.log("Error taking treasure: ", err));
+          .catch(err =>
+            console.log("Error taking treasure: ", err, currentRoom)
+          );
       }, coolDown * 1000);
     }
 
@@ -128,7 +132,7 @@ adventure = () => {
           treasure.pop(0);
           takeTreasure(treasure);
         })
-        .catch(err => console.log("Error taking treasure: ", err));
+        .catch(err => console.log("Error taking treasure: ", err, currentRoom));
     }, coolDown * 1000);
   };
 
@@ -149,7 +153,9 @@ adventure = () => {
           treasure.pop(0);
           sellTreasure(treasure);
         })
-        .catch(err => console.log("Error selling inventory: ", err));
+        .catch(err =>
+          console.log("Error selling inventory: ", err, currentRoom)
+        );
     }, coolDown * 100);
   };
 
@@ -206,11 +212,16 @@ adventure = () => {
             treasureHunt
               .post("status")
               .then(res => {
+                console.log(res);
                 treasure = [...res.data.inventory];
                 sellTreasure(treasure);
               })
               .catch(err =>
-                console.log("Error selling while on the map: ", err)
+                console.log(
+                  "Error selling while on the map: ",
+                  err,
+                  currentRoom
+                )
               );
           }, coolDown * 1000);
         }
@@ -221,13 +232,18 @@ adventure = () => {
             treasureHunt
               .post("status")
               .then(res => {
+                console.log(res);
                 if (res.data.inventory.length < 10) {
                   treasure = [...currentRoom.items];
                   takeTreasure(treasure);
                 }
               })
               .catch(err =>
-                console.log("Error picking up treasure while on the map: ", err)
+                console.log(
+                  "Error picking up treasure while on the map: ",
+                  err,
+                  currentRoom
+                )
               );
           }, coolDown * 1000);
         }
@@ -237,10 +253,23 @@ adventure = () => {
           treasureHunt
             .post("change_name", { name: "Colin Dismuke", confirm: "aye" })
             .then(res => {
+              console.log(res);
               coolDown = res.data.cooldown;
               name_changed = true;
             })
-            .catch(err => console.log("Error changing names: ", err));
+            .catch(err =>
+              console.log("Error changing names: ", err, currentRoom)
+            );
+        }
+
+        if (
+          currentRoom.room_id === 499 ||
+          currentRoom.title.toLowerCase().includes("shrine")
+        ) {
+          treasureHunt
+            .post("pray")
+            .then(res => (coolDown = res.data.cooldown))
+            .catch(err => console.log("Error praying:", err, currentRoom));
         }
 
         // Check if the new_room_id is in the map object, and if not, add it
@@ -324,7 +353,11 @@ adventure = () => {
           }
         })
         .catch(err =>
-          console.log("There was a problem reversing out of a dead end: ", err)
+          console.log(
+            "There was a problem reversing out of a dead end: ",
+            err,
+            currentRoom
+          )
         );
     });
   } else if (unexplored_rooms.length == 0 && reversePath.length == 0) {
