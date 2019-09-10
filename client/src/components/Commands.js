@@ -21,7 +21,7 @@ class Commands extends Component {
   }
 }
 
-export default Commands;
+export default UpdateCommands(Commands);
 
 const CommandStyles = styled.div`
   width: 100%;

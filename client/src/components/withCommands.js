@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 const UpdateCommand = HOCComponent => {
-  class NewCommand extends React.Component {
+  class NewCommand extends Component {
     constructor() {
       super();
       this.state = {
