@@ -7,6 +7,7 @@ import About from "./components/About";
 import Home from "./components/Home";
 import { CssBaseline } from "@material-ui/core";
 import "./App.css";
+import Map from "./components/Map";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
       <Route exact path="/" component={Landing} />
       <Route path="/home" component={Home} />
       <Route path="/about" component={About} />
+      <Map />
     </div>
   );
 };
