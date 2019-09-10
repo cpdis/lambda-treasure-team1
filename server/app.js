@@ -266,27 +266,27 @@ adventure = () => {
 
         // console.log("The graph length is now:", Object.keys(graph).length);
 
-        // Write out the current graph to graph_data.json (updates every move)
-        fs.writeFile(
-          "./graph_data.json",
-          JSON.stringify(graph, null, 2),
-          "utf-8",
-          function(err, result) {
-            if (err) console.log("error", err);
-          }
-        );
+        // // Write out the current graph to graph_data.json (updates every move)
+        // fs.writeFile(
+        //   "./graph_data.json",
+        //   JSON.stringify(graph, null, 2),
+        //   "utf-8",
+        //   function(err, result) {
+        //     if (err) console.log("error", err);
+        //   }
+        // );
 
-        // Write out the current map to map_data.json (updates every move)
-        fs.writeFile(
-          "./map_data.json",
-          JSON.stringify(map, null, 2),
-          "utf-8",
-          function(err, result) {
-            if (err) console.log("error", err);
-          }
-        );
+        // // Write out the current map to map_data.json (updates every move)
+        // fs.writeFile(
+        //   "./map_data.json",
+        //   JSON.stringify(map, null, 2),
+        //   "utf-8",
+        //   function(err, result) {
+        //     if (err) console.log("error", err);
+        //   }
+        // );
 
-        console.log("Finished writing map and graph data to disk.");
+        // console.log("Finished writing map and graph data to disk.");
 
         // Set the cooldown to the current room's cool down length
         coolDown = res.data.cooldown;
