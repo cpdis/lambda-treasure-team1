@@ -1,10 +1,13 @@
 const treasureHunt = require("./axios_config");
 const move = require("./graph");
+var fs = require("fs");
 
 // Create empty arrays and list to hold map and paths
 let traversalPath = [];
 let reversePath = [];
 let map = {};
+let graph = {};
+let name_changed = false;
 
 // Create a variable for the current room
 let currentRoom = null;
@@ -49,10 +52,8 @@ treasureHunt
 // the map, picking things up, selling things, etc. and should continue
 // until map.length==500
 adventure = () => {
-  console.log("It's time to go on an adventure...");
-
   let room_ID = currentRoom.room_id;
-  var unexplored_rooms = [];
+  let unexplored_rooms = [];
 
   // Create a helper function to move between rooms and pause for cool down
   // This uses the move() function from graph.js to move between the current and target room
@@ -83,7 +84,13 @@ adventure = () => {
     }
   });
 
-  console.log("The map now looks like this:\n", map);
+  // console.log("The map now looks like this:\n", map);
+
+  graph[room_ID] = currentRoom;
+
+  console.log("The graph length is now: ", Object.keys(graph).length);
+
+  // console.log("The whole  graph now looks like this:\n", graph);
 
   //   Create array of unexplored rooms
   for (var key in map[room_ID]) {
@@ -92,12 +99,59 @@ adventure = () => {
     }
   }
 
-  console.log("The remaining unexplored rooms are: ", unexplored_rooms);
+  console.log("The remaining unexplored rooms are:\n", unexplored_rooms);
 
   // Helper functions for picking up treasure, selling treasure, and checking inventory/status
-  //   TODO: Add POST requests for picking up treasure and selling treasure
-  const takeTreasure = treasure => {};
-  const sellTreasure = inventory => {};
+  const takeTreasure = treasure => {
+    if (!treasure.length) {
+      setTimeout(() => {
+        treasureHunt
+          .post("status")
+          .then(res => {
+            coolDown = res.data.cooldown;
+
+            if (res.data.inventory == 10) {
+              toRoom(currentRoom.room_ID, 1);
+            }
+          })
+          .catch(err => console.log("Error taking treasure: ", err));
+      }, coolDown * 1000);
+    }
+
+    setTimeout(() => {
+      treasureHunt
+        .post("take", { name: "treasure" })
+        .then(res => {
+          console.log("You found treasure.");
+          res.data.items.forEach(item => console.log(item));
+          coolDown = res.data.cooldown;
+          treasure.pop(0);
+          takeTreasure(treasure);
+        })
+        .catch(err => console.log("Error taking treasure: ", err));
+    }, coolDown * 1000);
+  };
+
+  const sellTreasure = treasure => {
+    if (!treasure.length) {
+      if (!name_changed) {
+        toRoom(1, 467);
+      }
+      return;
+    }
+
+    setTimeout(() => {
+      treasureHunt
+        .post("sell", { name: "treasure", confirm: "yes" })
+        .then(res => {
+          res.data.items.forEach(item => console.log(item));
+          coolDown = res.data.cooldown;
+          treasure.pop(0);
+          sellTreasure(treasure);
+        })
+        .catch(err => console.log("Error selling inventory: ", err));
+    }, coolDown * 100);
+  };
 
   /* 
   The following conditional will handle:
@@ -146,12 +200,55 @@ adventure = () => {
         // Set a new room_id
         let new_room_id = currentRoom.room_id;
 
+        // Check if current room is the shop, and if so, try to sell available inventory
+        if (currentRoom.room_id === 1) {
+          setTimeout(() => {
+            treasureHunt
+              .post("status")
+              .then(res => {
+                treasure = [...res.data.inventory];
+                sellTreasure(treasure);
+              })
+              .catch(err =>
+                console.log("Error selling while on the map: ", err)
+              );
+          }, coolDown * 1000);
+        }
+
+        // Check if the room has items in it, and if so, pick them up
+        if (currentRoom.items.length) {
+          setTimeout(() => {
+            treasureHunt
+              .post("status")
+              .then(res => {
+                if (res.data.inventory.length < 10) {
+                  treasure = [...currentRoom.items];
+                  takeTreasure(treasure);
+                }
+              })
+              .catch(err =>
+                console.log("Error picking up treasure while on the map: ", err)
+              );
+          }, coolDown * 1000);
+        }
+
+        // Check if the currrent room allows you to change names
+        if (currentRoom.room_id === 467 && !name_changed) {
+          treasureHunt
+            .post("change_name", { name: "Colin Dismuke", confirm: "aye" })
+            .then(res => {
+              coolDown = res.data.cooldown;
+              name_changed = true;
+            })
+            .catch(err => console.log("Error changing names: ", err));
+        }
+
         // Check if the new_room_id is in the map object, and if not, add it
         if (!map[new_room_id]) {
           map[new_room_id] = {};
         }
 
-        console.log("The map length is now: ", Object.keys(map).length);
+        // console.log("The map length is now:", Object.keys(map).length);
 
         // Add unexplored exits for the new room to the map with a X
         currentRoom.exits.forEach(exit => {
@@ -163,9 +260,33 @@ adventure = () => {
         // Update new rooms reverse_move room with the previous_room_id
         map[new_room_id][reverse_move] = previous_room_id;
 
-        console.log("The map now looks like this:\n", map);
+        // console.log("The map now looks like this:\n", map);
 
-        // TODO: Add if statements for picking up treasure, selling inventory, praying at shrine, changing name, and potentially other actions
+        graph[new_room_id] = currentRoom;
+
+        // console.log("The graph length is now:", Object.keys(graph).length);
+
+        // // Write out the current graph to graph_data.json (updates every move)
+        // fs.writeFile(
+        //   "./graph_data.json",
+        //   JSON.stringify(graph, null, 2),
+        //   "utf-8",
+        //   function(err, result) {
+        //     if (err) console.log("error", err);
+        //   }
+        // );
+
+        // // Write out the current map to map_data.json (updates every move)
+        // fs.writeFile(
+        //   "./map_data.json",
+        //   JSON.stringify(map, null, 2),
+        //   "utf-8",
+        //   function(err, result) {
+        //     if (err) console.log("error", err);
+        //   }
+        // );
+
+        // console.log("Finished writing map and graph data to disk.");
 
         // Set the cooldown to the current room's cool down length
         coolDown = res.data.cooldown;
@@ -211,6 +332,7 @@ adventure = () => {
       "It looks like you've explored the whole map...congratulations! 🎊\nJust to be sure, the current map length is: ", // TODO: Add confetti emoji
       Object.keys(map).length
     );
+
     return map;
   }
 };
