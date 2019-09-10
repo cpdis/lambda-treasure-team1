@@ -6,10 +6,7 @@
     "@material-ui/core": "^4.2.0",
     "axios": "^0.19.0",
     "clsx": "^1.0.4",
-<<<<<<< HEAD
     "dotenv": "^8.1.0",
-=======
->>>>>>> 48eeb16cd0d12c6f5ba7635996a7c02c706c4351
     "prettier": "^1.18.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
