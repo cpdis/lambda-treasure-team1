@@ -1,5 +1,4 @@
 module.exports = {
-
     "0": {
       "n": 10,
       "s": 2,
