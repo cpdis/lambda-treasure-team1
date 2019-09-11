@@ -1,8 +1,10 @@
 const rooms = './server/graph_data.json';
 
-export const resolvers = {
+const resolvers = {
   Query: {
     rooms: () => rooms
   }
 };
 
+
+module.exports = { resolvers };

@@ -1,14 +1,14 @@
-import { GraphQLServer} from "graphql-yoga";
-import { typeDefs} from "./typeDefs";
-
+const { GraphQLServer} = require("graphql-yoga");
+const { typeDefs } = require("./typeDefs");
+const { resolvers } = require("./resolvers");
 // Can we just import graph_data?
 // How do we make this data useable?
 
 const server = new GraphQLServer({
   typeDefs,
-// Add resolvers
+  resolvers,
 });
 
-server.start(_, () => {
-
+server.start(() => {
+  console.log('Server is running on ****4000****.')
 });
