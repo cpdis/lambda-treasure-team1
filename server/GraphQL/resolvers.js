@@ -5,7 +5,7 @@ const resolvers = {
     rooms: () => rooms
   },
   Room: {
-    room_id: (parent) => parent.id,
+    room_id: (parent) => parent.room_id,
     title: (parent) => parent.title,
     description: (parent) => parent.description,
     coordinates: (parent) => parent.coordinates,

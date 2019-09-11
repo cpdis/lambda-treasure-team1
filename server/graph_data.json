@@ -9781,8 +9781,6 @@
     ],
     "cooldown": 15,
     "errors": [],
-    "messages": [
-      },
-    "You have walked west."
-    ]
-}
+    "messages": ["You have walked west."]
+      }
+}];
