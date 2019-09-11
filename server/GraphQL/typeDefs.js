@@ -37,7 +37,7 @@ const typeDefs = `
   }
   
   type Room {
-      room_id: Int!
+      room_id: Int
       title: String!
       description: String!
       coordinates: String!

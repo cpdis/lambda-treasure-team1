@@ -1,4 +1,4 @@
-{
+const data = {
   "0": {
     "room_id": 0,
     "title": "A brightly lit room",
@@ -9703,7 +9703,7 @@
     "elevation": 0,
     "terrain": "NORMAL",
     "players": [],
-    "items": [],
+      "items": [],
     "exits": [
       "e"
     ],
@@ -9783,4 +9783,10 @@
     "errors": [],
     "messages": ["You have walked west."]
       }
-}];
+}
+
+const arr = Object.keys(data).map((key) => [data[key]]);
+
+console.log(arr);
+
+module.exports = { arr };

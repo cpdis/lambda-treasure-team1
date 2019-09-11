@@ -1,8 +1,9 @@
-const rooms = './server/graph_data.json';
+const rooms = './server/graph_data.js';
+const { arr } = require('../graph_data');
 
 const resolvers = {
   Query: {
-    rooms: () => rooms
+    rooms: () => arr
   },
   Room: {
     room_id: (parent) => parent.room_id,
