@@ -1,6 +1,0 @@
-projects:
-  lambda-treasure-team1:
-    schemaPath: ./schema.graphql
-    extensions:
-      endpoints:
-        baseURL: 'https://lambda-treasure-hunt.herokuapp.com/api/adv/'
