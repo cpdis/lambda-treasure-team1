@@ -46,4 +46,8 @@ type Room {
     errors: [Error]
     messages: [Message]
 }
+
+type Map {
+  rooms: [Room]
+}
 `
