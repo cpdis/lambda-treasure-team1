@@ -1,22 +1,22 @@
 require("dotenv").config();
 const axios = require('axios');
 
-const currentPlayer = [];
-axios.create({
-  baseURL: "https://lambda-treasure-hunt.herokuapp.com/api/adv/",
-  method: 'post',
-  headers: {
-    Authorization: `Token ${process.env.API_KEY}`
-  },
-  transformResponse: [function (data) {
-    return data;
-  }],
-}).post("/status", (response) => {
-  console.log(response)
-  currentPlayer.push(response);
-}).catch((err) => {
-  console.log(err.message)
-});
+// const currentPlayer = [];
+// axios.create({
+//   baseURL: "https://lambda-treasure-hunt.herokuapp.com/api/adv/",
+//   method: 'post',
+//   headers: {
+//     Authorization: `Token ${process.env.API_KEY}`
+//   },
+//   transformResponse: [function (data) {
+//     return data;
+//   }],
+// }).post("/status", (response) => {
+//   console.log(response)
+//   currentPlayer.push(response);
+// }).catch((err) => {
+//   console.log(err.message)
+// });
 
 
 const data = {
