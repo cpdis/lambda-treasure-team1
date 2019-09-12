@@ -15,51 +15,41 @@ const StyledMap = styled.div`
 
 class Map extends Component {
   state = {
-    lines: [],
-    rooms: []
+    links: [],
+    coordinates: []
   };
   componentDidMount() {
     // Create arrays to hold point coordinates and links
-    const coordinates = {};
+    const coordinates = [];
+    const links = [];
 
     // Loop through each room in the room_data object
 
     for (let room in room_data) {
-      // Set data equal to the first element (x, y coordinates)
-      // in each room of the room_data object
-      // console.log("Room Data", room_data);
-      let data = room_data[room];
-      let map = map_data[room];
-      // console.log("Data", data, "Map", map);
+      let data = room_data[room]; // graph data
+      coordinates.push(data);
 
-      coordinates[room] = [];
-      console.log("Coords", coordinates);
-      coordinates[room].push(data, map);
-
-      for (let i = 0; i < 500; i++) {
-        let room = coordinates[i][0];
-        let exits = coordinates[i][1];
-        console.log("Cords", coordinates[i]);
-        console.log("exits", exits);
-
-        this.setState({
-          rooms: room,
-          lines: exits
-        });
+      //get the adjacent rooms x and y coorindates and display that data
+      for (let adjacentRoom in map_data[room]) {
+        links.push([room_data[room], room_data[map_data[room][adjacentRoom]]]);
       }
-      // console.log(links);
     }
+    this.setState({
+      coordinates,
+      links
+    });
   }
   render() {
-    console.log("This is Lines", this.state.lines);
-    console.log("This is the rooms", this.state.rooms);
-    if (!this.state.lines || this.state.rooms) {
+    const { coordinates, links } = this.state;
+    // if this doesnt load show that its loading
+    if (!links.length && !coordinates.length) {
       return <div>Loading...</div>;
     }
     return (
       <StyledMap>
         <FlexibleXYPlot width={900} height={800}>
-          {this.state.lines.map(link => (
+          {/* To display the lines on the map to the next plot point */}
+          {links.map(link => (
             <LineSeries
               strokeWidth="5"
               color="orangered"
@@ -67,14 +57,15 @@ class Map extends Component {
               key={Math.random() * 100}
             />
           ))}
+          {/* Plot the points for the room */}
           <MarkSeries
-            // current={this.props.currentRoom}
+            current={this.props.currentRoom}
             highlight="none"
             strokeWidth={5}
             opacity="1"
             size="5"
             color="navy"
-            data={this.state.rooms}
+            data={coordinates}
             style={{ cursor: "pointer" }}
           />
         </FlexibleXYPlot>
