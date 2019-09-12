@@ -2,16 +2,7 @@ import React, { Component } from "react";
 import { FlexibleXYPlot, LineSeries, MarkSeries } from "react-vis";
 import room_data from "../data/graph.json";
 import map_data from "../data/map_data.json";
-import styled from "styled-components";
-
-const StyledMap = styled.div`
-  marginleft: 10%;
-  width: 66%;
-  height: 100%;
-  flex: 1;
-  padding: 3rem 3rem 3rem 3rem;
-  position: relative;
-`;
+import styled, { keyframes } from "styled-components";
 
 class Map extends Component {
   state = {
@@ -47,12 +38,12 @@ class Map extends Component {
     }
     return (
       <StyledMap>
-        <FlexibleXYPlot width={900} height={800}>
+        <FlexibleXYPlot width={1024} height={768}>
           {/* To display the lines on the map to the next plot point */}
           {links.map(link => (
             <LineSeries
-              strokeWidth="5"
-              color="orangered"
+              strokeWidth="3"
+              color="#DDDDDD"
               data={link}
               key={Math.random() * 100}
             />
@@ -60,18 +51,36 @@ class Map extends Component {
           {/* Plot the points for the room */}
           <MarkSeries
             current={this.props.currentRoom}
-            highlight="none"
-            strokeWidth={5}
+            strokeWidth={2}
             opacity="1"
-            size="5"
-            color="navy"
+            size="4"
+            color="#16274a"
             data={coordinates}
-            style={{ cursor: "pointer" }}
+            style={{ cursor: "pointer", transition: "all .2s" }}
           />
         </FlexibleXYPlot>
       </StyledMap>
     );
   }
 }
+
+const fadeIn = keyframes`
+   from {
+     opacity: 0
+   }
+   to {
+     opacity: 1
+   }
+ `;
+
+const StyledMap = styled.div`
+  margin: auto;
+  width: 75%;
+  height: 100%;
+  flex: 1;
+  padding: 3rem 4rem 2rem 3rem;
+  position: relative;
+  animation: ${fadeIn} 2s ease-in-out 0.6;
+`;
 
 export default Map;
