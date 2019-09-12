@@ -23,7 +23,7 @@ const typeDefs = `
       coordinates: String!
       elevation: Int!
       terrain: String!
-      players: [Player!]
+      players: [String]
       items: [String]
       exits: [String]
       cooldown: Int!

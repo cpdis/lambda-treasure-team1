@@ -9783,7 +9783,7 @@ const data = {
     "errors": [],
     "messages": ["You have walked west."]
       }
-}
+};
 
 const arr = Object.keys(data).map((key) => [data[key]]);
 const graph_array_data = [];
@@ -9791,12 +9791,6 @@ arr.forEach((x) => {
   graph_array_data.push(x[0]);
 });
 
-graph_array_data.forEach((x) => {
-  if (x.exits) {
-
-  }
-  console.log(x)
-});
 
 
 // console.log(graph_array_data[0]['exits']);
