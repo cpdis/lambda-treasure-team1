@@ -266,9 +266,9 @@ adventure = () => {
 
         // console.log("The graph length is now:", Object.keys(graph).length);
 
-        // // Write out the current graph to graph_data.js (updates every move)
+        // // Write out the current graph to graph_data.json (updates every move)
         // fs.writeFile(
-        //   "./graph_data.js",
+        //   "./graph_data.json",
         //   JSON.stringify(graph, null, 2),
         //   "utf-8",
         //   function(err, result) {

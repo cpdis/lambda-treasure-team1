@@ -1,4 +1,4 @@
-const rooms = './server/graph_data.js';
+const rooms = './server/graph_data.json';
 const { arr, graph_array_data } = require('../graph_data');
 
 const resolvers = {
