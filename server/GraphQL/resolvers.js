@@ -1,10 +1,10 @@
 const { arr, graph_array_data } = require('./graph_data.js');
 // const myData  = require('./room_data.js');
-importmyData from "./room_data";
+import room_arr from './room_data';
 const resolvers = {
 
   Query: {
-    rooms: () => myData
+    rooms: () => room_arr
   },
   Room: {
     room_id: (parent) => parent.room_id,
