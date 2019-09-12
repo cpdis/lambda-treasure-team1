@@ -29,7 +29,7 @@ class Map extends Component {
       let data = room_data[room]; // graph data
       coordinates.push(data);
 
-      //get the adjacent rooms x and y coorindates and display that data
+      //get the adjacent rooms x and y coordinates and display that data
       for (let adjacentRoom in map_data[room]) {
         links.push([room_data[room], room_data[map_data[room][adjacentRoom]]]);
       }
@@ -41,7 +41,7 @@ class Map extends Component {
   }
   render() {
     const { coordinates, links } = this.state;
-    // if this doesnt load show that its loading
+    // if links and coordinates empty load show that its loading
     if (!links.length && !coordinates.length) {
       return <div>Loading...</div>;
     }
