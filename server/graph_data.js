@@ -9791,6 +9791,13 @@ arr.forEach((x) => {
   graph_array_data.push(x[0]);
 });
 
+graph_array_data.forEach((x) => {
+  if (x.exits) {
 
-// console.log(graph_array_data);
+  }
+  console.log(x)
+});
+
+
+// console.log(graph_array_data[0]['exits']);
 module.exports = { arr, graph_array_data };
