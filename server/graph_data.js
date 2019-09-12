@@ -9786,7 +9786,11 @@ const data = {
 }
 
 const arr = Object.keys(data).map((key) => [data[key]]);
+const graph_array_data = [];
+arr.forEach((x) => {
+  graph_array_data.push(x[0]);
+});
 
-console.log(arr);
 
-module.exports = { arr };
+// console.log(graph_array_data);
+module.exports = { arr, graph_array_data };
