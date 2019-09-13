@@ -139,21 +139,21 @@ adventure = () => {
     }, coolDown * 1000);
   };
 
-  if (currentRoom.room_id === 1) {
-    // Check if current room is the shop, and if so, try to sell available inventory
-    setTimeout(() => {
-      treasureHunt
-        .post("status")
-        .then(res => {
-          console.log("Current inventory is:", res.data.inventory);
-          treasure = [...res.data.inventory];
-          sellTreasure(treasure);
-        })
-        .catch(err =>
-          console.log("Error selling while on the map: ", err, currentRoom)
-        );
-    }, coolDown * 1000);
-  }
+  // if (currentRoom.room_id === 1) {
+  //   // Check if current room is the shop, and if so, try to sell available inventory
+  //   setTimeout(() => {
+  //     treasureHunt
+  //       .post("status")
+  //       .then(res => {
+  //         console.log("Current inventory is:", res.data.inventory);
+  //         treasure = [...res.data.inventory];
+  //         sellTreasure(treasure);
+  //       })
+  //       .catch(err =>
+  //         console.log("Error selling while on the map: ", err, currentRoom)
+  //       );
+  //   }, coolDown * 1000);
+  // }
 
   // Check if the room has items in it, and if so, pick them up
   if (currentRoom.items.length) {
@@ -163,14 +163,8 @@ adventure = () => {
         .then(res => {
           console.log("Current inventory is:", res.data.inventory);
           treasure = [...currentRoom.items];
-          console.log("The items you're about to pick up are: ", treasure);
-          if (treasure.length > res.data.strength) {
-            console.log(
-              "Your inventory exceeds your strength and will cause you to slow down. Sell some treasure!"
-            );
-          } else {
-            takeTreasure(treasure[0]);
-          }
+          console.log("The item(s) you're about to pick up are: ", treasure);
+          takeTreasure(treasure[0]);
         })
         .catch(err =>
           console.log(
@@ -182,35 +176,35 @@ adventure = () => {
     }, coolDown * 1000);
   }
 
-  // Check if the currrent room allows you to change names
-  if (currentRoom.room_id === 467 && !name_changed) {
-    setTimeout(() => {
-      treasureHunt
-        .post("change_name", {
-          name: "Colin Dismuke",
-          confirm: "aye"
-        })
-        .then(res => {
-          coolDown = res.data.cooldown;
-          name_changed = true;
-        })
-        .catch(err => console.log("Error changing names: ", err, currentRoom));
-    }, coolDown * 1000);
-  }
+  // // Check if the currrent room allows you to change names
+  // if (currentRoom.room_id === 467 && !name_changed) {
+  //   setTimeout(() => {
+  //     treasureHunt
+  //       .post("change_name", {
+  //         name: "Colin Dismuke",
+  //         confirm: "aye"
+  //       })
+  //       .then(res => {
+  //         coolDown = res.data.cooldown;
+  //         name_changed = true;
+  //       })
+  //       .catch(err => console.log("Error changing names: ", err, currentRoom));
+  //   }, coolDown * 1000);
+  // }
 
-  setTimeout(() => {
-    treasureHunt
-      .post("status")
-      .then(res => {
-        console.log("🕰️ Checking status: ", res.data);
-        inventory = [...res.data.inventory];
-        strength = res.data.strength;
-        // if (inventory.length >= strength) {
-        //   toRoom(currentRoom.room_id, 1);
-        // }
-      })
-      .catch(err => console.log("Error while showing status: ", err));
-  }, coolDown * 1000);
+  // setTimeout(() => {
+  //   treasureHunt
+  //     .post("status")
+  //     .then(res => {
+  //       console.log("🕰️ Checking status: ", res.data);
+  //       inventory = [...res.data.inventory];
+  //       strength = res.data.strength;
+  //       // if (inventory.length >= strength) {
+  //       //   toRoom(currentRoom.room_id, 1);
+  //       // }
+  //     })
+  //     .catch(err => console.log("Error while showing status: ", err));
+  // }, coolDown * 1000);
 
   /* 
   The following conditional will handle:
