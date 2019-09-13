@@ -7,7 +7,16 @@ hash = str => {
     .digest("hex");
 };
 
-valid_proof = () => {};
+valid_proof = (lastProof, proof, difficulty) => {
+  const guess = hash(`${lastProof}${proof}`);
+
+  let leading_zeroes = "";
+  for (let i = 0; i < difficulty; i++) {
+    leading_zeroes += 0;
+  }
+
+  return guess.startsWith(leading_zeroes);
+};
 
 getLastProof = () => {
   let last_proof = "";
