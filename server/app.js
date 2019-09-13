@@ -88,56 +88,42 @@ adventure = () => {
   const toRoom = (current_room_id, target_room_id) => {
     const directions = move(current_room_id, target_room_id);
     console.log(
-      "The directions to get to where you're going are: ",
+      "The directions to get to where you're going are:\n",
       directions
     );
-
-    // directions.forEach(dir => {
-    //   setTimeout(() => {
-    //     treasureHunt
-    //       .post("move", { direction: dir })
-    //       .then(res => {
-    //         coolDown = res.data.coolDown;
-    //         currentRoom = res.data;
-    //       })
-    //       .catch(err => console.log(err));
-    //   }, coolDown * 1000);
-    // });
   };
+
+  console.log("The route to the shop is:\n")
+  toRoom(currentRoom.room_id, 1);
+  
+  console.log("The route to Pirate Ry's is:\n");
+  toRoom(currentRoom.room_id, 467);
 
   // Helper functions for picking up treasure, selling treasure, and checking inventory/status
-  const takeTreasure = treasure => {
-    setTimeout(() => {
-      treasureHunt
-        .post("take", { name: treasure })
-        .then(res => {
-          console.log(res.data);
-          console.log("💰💰💰 You found treasure 💰💰💰");
-          coolDown = res.data.cooldown;
-        })
-        .catch(err => console.log("Error taking treasure: ", err, currentRoom));
-    }, coolDown * 1000);
-  };
+  // const takeTreasure = treasure => {
+  //   setTimeout(() => {
+  //     treasureHunt
+  //       .post("take", { name: treasure })
+  //       .then(res => {
+  //         console.log("💰💰💰 You found treasure 💰💰💰");
+  //         coolDown = res.data.cooldown;
+  //       })
+  //       .catch(err => console.log("Error taking treasure: ", err, currentRoom));
+  //   }, coolDown * 1000);
+  // };
 
-  const sellTreasure = treasure => {
-    if (!treasure.length) {
-      if (!name_changed) {
-        toRoom(1, 467);
-      }
-      return;
-    }
-
-    setTimeout(() => {
-      treasureHunt
-        .post("sell", { name: treasure, confirm: "yes" })
-        .then(res => {
-          sellTreasure(treasure.pop(0));
-        })
-        .catch(err =>
-          console.log("Error selling inventory: ", err, currentRoom)
-        );
-    }, coolDown * 1000);
-  };
+  // const sellTreasure = treasure => {
+  //   setTimeout(() => {
+  //     treasureHunt
+  //       .post("sell", { name: treasure, confirm: "yes" })
+  //       .then(res => {
+  //         sellTreasure(treasure.pop(0));
+  //       })
+  //       .catch(err =>
+  //         console.log("Error selling inventory: ", err, currentRoom)
+  //       );
+  //   }, coolDown * 1000);
+  // };
 
   // if (currentRoom.room_id === 1) {
   //   // Check if current room is the shop, and if so, try to sell available inventory
@@ -155,26 +141,26 @@ adventure = () => {
   //   }, coolDown * 1000);
   // }
 
-  // Check if the room has items in it, and if so, pick them up
-  if (currentRoom.items.length) {
-    setTimeout(() => {
-      treasureHunt
-        .post("status")
-        .then(res => {
-          console.log("Current inventory is:", res.data.inventory);
-          treasure = [...currentRoom.items];
-          console.log("The item(s) you're about to pick up are: ", treasure);
-          takeTreasure(treasure[0]);
-        })
-        .catch(err =>
-          console.log(
-            "Error picking up treasure while on the map: ",
-            err,
-            currentRoom
-          )
-        );
-    }, coolDown * 1000);
-  }
+  // // Check if the room has items in it, and if so, pick them up
+  // if (currentRoom.items.length) {
+  //   setTimeout(() => {
+  //     treasureHunt
+  //       .post("status")
+  //       .then(res => {
+  //         console.log("Current inventory is:", res.data.inventory);
+  //         treasure = [...currentRoom.items];
+  //         console.log("The item(s) you're about to pick up are: ", treasure);
+  //         takeTreasure(treasure[0]);
+  //       })
+  //       .catch(err =>
+  //         console.log(
+  //           "Error picking up treasure while on the map: ",
+  //           err,
+  //           currentRoom
+  //         )
+  //       );
+  //   }, coolDown * 1000);
+  // }
 
   // // Check if the currrent room allows you to change names
   // if (currentRoom.room_id === 467 && !name_changed) {
@@ -199,9 +185,9 @@ adventure = () => {
   //       console.log("🕰️ Checking status: ", res.data);
   //       inventory = [...res.data.inventory];
   //       strength = res.data.strength;
-  //       // if (inventory.length >= strength) {
-  //       //   toRoom(currentRoom.room_id, 1);
-  //       // }
+  //       if (inventory.length >= strength) {
+  //         toRoom(currentRoom.room_id, 1);
+  //       }
   //     })
   //     .catch(err => console.log("Error while showing status: ", err));
   // }, coolDown * 1000);
@@ -271,8 +257,6 @@ adventure = () => {
             map[new_room_id] = {};
           }
 
-          // console.log("The map length is now:", Object.keys(map).length);
-
           // Add unexplored exits for the new room to the map with a X
           currentRoom.exits.forEach(exit => {
             if (map[new_room_id][exit.toString()] == undefined) {
@@ -283,11 +267,7 @@ adventure = () => {
           // Update new rooms reverse_move room with the previous_room_id
           map[new_room_id][reverse_move] = previous_room_id;
 
-          // console.log("The map now looks like this:\n", map);
-
           graph[new_room_id] = currentRoom;
-
-          // console.log("The graph length is now:", Object.keys(graph).length);
 
           // // Write out the current graph to graph_data.json (updates every move)
           // fs.writeFile(
@@ -309,8 +289,6 @@ adventure = () => {
           //   }
           // );
 
-          // console.log("Finished writing map and graph data to disk.");
-
           // Set the cooldown to the current room's cool down length
           coolDown = res.data.cooldown;
 
@@ -321,7 +299,7 @@ adventure = () => {
           }
         })
         .catch(err => console.log("Error moving forward: ", err));
-    }, coolDown * 2250);
+    }, coolDown * 1000);
 
     // Check if map.length == 500 and if not, loop through adventure() again
   } else if (unexplored_rooms.length == 0 && reversePath.length) {
