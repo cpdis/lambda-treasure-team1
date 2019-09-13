@@ -92,17 +92,17 @@ adventure = () => {
       directions
     );
 
-    directions.forEach(dir => {
-      setTimeout(() => {
-        treasureHunt
-          .post("move", { direction: dir })
-          .then(res => {
-            coolDown = res.data.coolDown;
-            currentRoom = res.data;
-          })
-          .catch(err => console.log(err));
-      }, coolDown * 1000);
-    });
+    // directions.forEach(dir => {
+    //   setTimeout(() => {
+    //     treasureHunt
+    //       .post("move", { direction: dir })
+    //       .then(res => {
+    //         coolDown = res.data.coolDown;
+    //         currentRoom = res.data;
+    //       })
+    //       .catch(err => console.log(err));
+    //   }, coolDown * 1000);
+    // });
   };
 
   // Helper functions for picking up treasure, selling treasure, and checking inventory/status
@@ -164,7 +164,13 @@ adventure = () => {
           console.log("Current inventory is:", res.data.inventory);
           treasure = [...currentRoom.items];
           console.log("The items you're about to pick up are: ", treasure);
-          takeTreasure(treasure[0]);
+          if (treasure.length > res.data.strength) {
+            console.log(
+              "Your inventory exceeds your strength and will cause you to slow down. Sell some treasure!"
+            );
+          } else {
+            takeTreasure(treasure[0]);
+          }
         })
         .catch(err =>
           console.log(
@@ -199,9 +205,9 @@ adventure = () => {
         console.log("🕰️ Checking status: ", res.data);
         inventory = [...res.data.inventory];
         strength = res.data.strength;
-        if (inventory.length >= strength) {
-          toRoom(currentRoom.room_id, 1);
-        }
+        // if (inventory.length >= strength) {
+        //   toRoom(currentRoom.room_id, 1);
+        // }
       })
       .catch(err => console.log("Error while showing status: ", err));
   }, coolDown * 1000);
