@@ -321,7 +321,7 @@ adventure = () => {
           }
         })
         .catch(err => console.log("Error moving forward: ", err));
-    }, coolDown * 2250);
+    }, coolDown * 2700);
 
     // Check if map.length == 500 and if not, loop through adventure() again
   } else if (unexplored_rooms.length == 0 && reversePath.length) {
