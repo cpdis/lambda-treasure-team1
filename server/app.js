@@ -93,11 +93,14 @@ adventure = () => {
     );
   };
 
-  console.log("The route to the shop is:\n")
-  toRoom(currentRoom.room_id, 1);
-  
-  console.log("The route to Pirate Ry's is:\n");
-  toRoom(currentRoom.room_id, 467);
+  // console.log("The route to the shop is:\n")
+  // toRoom(currentRoom.room_id, 1);
+
+  // console.log("The route to Pirate Ry's is:\n");
+  // toRoom(currentRoom.room_id, 467);
+
+  console.log("❗ The route to room 250 ❗");
+  toRoom(currentRoom.room_id, 250);
 
   // Helper functions for picking up treasure, selling treasure, and checking inventory/status
   // const takeTreasure = treasure => {
