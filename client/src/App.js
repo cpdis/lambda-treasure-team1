@@ -8,6 +8,7 @@ import Home from "./components/Home";
 import { CssBaseline } from "@material-ui/core";
 import "./App.css";
 import Map from "./components/Map";
+import Commands from "./components/Commands";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
       <Route path="/home" component={Home} />
       <Route path="/about" component={About} />
       <Map />
+      <Commands />
     </div>
   );
 };
