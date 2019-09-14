@@ -1,13 +1,11 @@
 const treasureHunt = require("./axios_config");
 const move = require("./graph");
-var fs = require("fs");
 
 // Create empty arrays and list to hold map and paths
 let traversalPath = [];
 let reversePath = [];
 let map = {};
 let graph = {};
-let name_changed = false;
 
 // Create a variable for the current room
 let currentRoom = null;
@@ -102,99 +100,6 @@ adventure = () => {
   console.log("❗ The route to room 250 ❗");
   toRoom(currentRoom.room_id, 250);
 
-  // Helper functions for picking up treasure, selling treasure, and checking inventory/status
-  // const takeTreasure = treasure => {
-  //   setTimeout(() => {
-  //     treasureHunt
-  //       .post("take", { name: treasure })
-  //       .then(res => {
-  //         console.log("💰💰💰 You found treasure 💰💰💰");
-  //         coolDown = res.data.cooldown;
-  //       })
-  //       .catch(err => console.log("Error taking treasure: ", err, currentRoom));
-  //   }, coolDown * 1000);
-  // };
-
-  // const sellTreasure = treasure => {
-  //   setTimeout(() => {
-  //     treasureHunt
-  //       .post("sell", { name: treasure, confirm: "yes" })
-  //       .then(res => {
-  //         sellTreasure(treasure.pop(0));
-  //       })
-  //       .catch(err =>
-  //         console.log("Error selling inventory: ", err, currentRoom)
-  //       );
-  //   }, coolDown * 1000);
-  // };
-
-  // if (currentRoom.room_id === 1) {
-  //   // Check if current room is the shop, and if so, try to sell available inventory
-  //   setTimeout(() => {
-  //     treasureHunt
-  //       .post("status")
-  //       .then(res => {
-  //         console.log("Current inventory is:", res.data.inventory);
-  //         treasure = [...res.data.inventory];
-  //         sellTreasure(treasure);
-  //       })
-  //       .catch(err =>
-  //         console.log("Error selling while on the map: ", err, currentRoom)
-  //       );
-  //   }, coolDown * 1000);
-  // }
-
-  // // Check if the room has items in it, and if so, pick them up
-  // if (currentRoom.items.length) {
-  //   setTimeout(() => {
-  //     treasureHunt
-  //       .post("status")
-  //       .then(res => {
-  //         console.log("Current inventory is:", res.data.inventory);
-  //         treasure = [...currentRoom.items];
-  //         console.log("The item(s) you're about to pick up are: ", treasure);
-  //         takeTreasure(treasure[0]);
-  //       })
-  //       .catch(err =>
-  //         console.log(
-  //           "Error picking up treasure while on the map: ",
-  //           err,
-  //           currentRoom
-  //         )
-  //       );
-  //   }, coolDown * 1000);
-  // }
-
-  // // Check if the currrent room allows you to change names
-  // if (currentRoom.room_id === 467 && !name_changed) {
-  //   setTimeout(() => {
-  //     treasureHunt
-  //       .post("change_name", {
-  //         name: "Colin Dismuke",
-  //         confirm: "aye"
-  //       })
-  //       .then(res => {
-  //         coolDown = res.data.cooldown;
-  //         name_changed = true;
-  //       })
-  //       .catch(err => console.log("Error changing names: ", err, currentRoom));
-  //   }, coolDown * 1000);
-  // }
-
-  // setTimeout(() => {
-  //   treasureHunt
-  //     .post("status")
-  //     .then(res => {
-  //       console.log("🕰️ Checking status: ", res.data);
-  //       inventory = [...res.data.inventory];
-  //       strength = res.data.strength;
-  //       if (inventory.length >= strength) {
-  //         toRoom(currentRoom.room_id, 1);
-  //       }
-  //     })
-  //     .catch(err => console.log("Error while showing status: ", err));
-  // }, coolDown * 1000);
-
   /* 
   The following conditional will handle:
   1. Free movement: there is nothing stopping the explorer from moving to another room
@@ -245,16 +150,6 @@ adventure = () => {
           // Set a new room_id
           let new_room_id = currentRoom.room_id;
 
-          // if (
-          //   currentRoom.room_id === 499 ||
-          //   currentRoom.title.toLowerCase().includes("shrine")
-          // ) {
-          //   treasureHunt
-          //     .post("pray")
-          //     .then(res => (coolDown = res.data.cooldown))
-          //     .catch(err => console.log("Error praying:", err, currentRoom));
-          // }
-
           // Check if the new_room_id is in the map object, and if not, add it
           if (!map[new_room_id]) {
             map[new_room_id] = {};
@@ -271,26 +166,6 @@ adventure = () => {
           map[new_room_id][reverse_move] = previous_room_id;
 
           graph[new_room_id] = currentRoom;
-
-          // // Write out the current graph to graph_data.json (updates every move)
-          // fs.writeFile(
-          //   "./graph_data.json",
-          //   JSON.stringify(graph, null, 2),
-          //   "utf-8",
-          //   function(err, result) {
-          //     if (err) console.log("error", err);
-          //   }
-          // );
-
-          // // Write out the current map to map_data.json (updates every move)
-          // fs.writeFile(
-          //   "./map_data.json",
-          //   JSON.stringify(map, null, 2),
-          //   "utf-8",
-          //   function(err, result) {
-          //     if (err) console.log("error", err);
-          //   }
-          // );
 
           // Set the cooldown to the current room's cool down length
           coolDown = res.data.cooldown;
