@@ -2,10 +2,8 @@ import React, { Component } from "react";
 import { withRouter } from "react-router";
 import { Route } from "react-router-dom";
 import axios from "axios";
-import Landing from "./components/Landing";
 import NavBar from "./components/NavBar";
-import About from "./components/About";
-import Home from "./components/Home";
+import Commands from "./components/Commands";
 import { CssBaseline } from "@material-ui/core";
 import "./App.css";
 import Map from "./components/Map";
@@ -193,10 +191,8 @@ class App extends Component {
       <div className="App">
         <CssBaseline />
         <NavBar />
-        <Route exact path="/" component={Landing} />
-        <Route path="/home" component={Home} />
-        <Route path="/about" component={About} />
         <Map />
+        <Commands />
       </div>
     );
   }

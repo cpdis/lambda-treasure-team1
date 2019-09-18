@@ -1,7 +1,10 @@
 import React from "react";
 
-const Info = () => {
-  return <div>Room Information</div>;
-};
+export class Info extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+}
 
 export default Info;

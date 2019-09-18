@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import Button from "./Buttons/Button";
-import UpdateCommands from "./withCommands";
+
 class Commands extends Component {
   render() {
     const { move, explore } = this.props;
@@ -13,15 +13,12 @@ class Commands extends Component {
           <Button task={move} title={"E"} />
           <Button task={move} title={"W"} />
         </div>
-        <div className="buttons">
-          <Button task={explore} title={"Explore"} />
-        </div>
       </CommandStyles>
     );
   }
 }
 
-export default UpdateCommands(Commands);
+export default Commands;
 
 const CommandStyles = styled.div`
   width: 100%;
@@ -32,9 +29,9 @@ const CommandStyles = styled.div`
 
   .buttons {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    width: 25%;
+    width: 100%;
     height: 100%;
   }
 `;
