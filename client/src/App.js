@@ -4,6 +4,7 @@ import { Route } from "react-router-dom";
 import axios from "axios";
 import NavBar from "./components/NavBar";
 import Commands from "./components/Commands";
+import Info from "./components/Info";
 import { CssBaseline } from "@material-ui/core";
 import "./App.css";
 import Map from "./components/Map";
@@ -51,6 +52,7 @@ class App extends Component {
     axios
       .get(`https://lambda-treasure-hunt.herokuapp.com/api/adv/init`, options)
       .then(res => {
+        console.log(res.data);
         let room_id = res.data.room_id;
         let exits = res.data.exits;
         let description = res.data.description;
@@ -88,6 +90,7 @@ class App extends Component {
         options
       )
       .then(res => {
+        console.log(res.data);
         let playerName = res.data.name;
         let speed = res.data.speed;
         let strength = res.data.strength;
@@ -187,12 +190,16 @@ class App extends Component {
   };
 
   render() {
+    this.state.room.items.forEach(item => {
+      console.log(item);
+    });
     return (
       <div className="App">
         <CssBaseline />
         <NavBar />
         <Map />
         <Commands />
+        <Info player={this.state.player} room={this.state.room} />
       </div>
     );
   }
