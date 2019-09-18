@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router";
-import { Route } from "react-router-dom";
 import axios from "axios";
 import NavBar from "./components/NavBar";
 import Commands from "./components/Commands";
@@ -14,7 +13,6 @@ class App extends Component {
     super();
     this.state = {
       api_key: "4bdb7a27f7406988df6fe29ba41a7cab1d609202",
-      rooms: {},
       room: {
         room_id: 0,
         description: "",
@@ -150,11 +148,22 @@ class App extends Component {
       .catch(err => console.log("Error in the status() function", err));
   };
 
-  move = direction => {
+  move = dir => {
+    const options = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${this.state.api_key}`
+      }
+    };
+    const body = JSON.stringify({
+      direction: dir
+    });
     axios
-      .post("https://lambda-treasure-hunt.herokuapp.com/api/adv/move", {
-        dir: direction
-      })
+      .post(
+        "https://lambda-treasure-hunt.herokuapp.com/api/adv/move",
+        body,
+        options
+      )
       .then(res => {
         let room_id = res.data.room_id;
         let exits = res.data.exits;
@@ -197,8 +206,8 @@ class App extends Component {
       <div className="App">
         <CssBaseline />
         <NavBar />
-        <Map />
-        <Commands />
+        <Map currentRoom={this.state.room.room_id} />
+        <Commands move={this.move} />
         <Info player={this.state.player} room={this.state.room} />
       </div>
     );

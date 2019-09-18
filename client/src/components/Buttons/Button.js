@@ -2,11 +2,7 @@ import React from "react";
 import styled from "styled-components";
 const Button = props => {
   let { title, task } = props;
-  return (
-    <Buttons className="button" onClick={task}>
-      {title}
-    </Buttons>
-  );
+  return <Buttons className="button">{title}</Buttons>;
 };
 
 export default Button;

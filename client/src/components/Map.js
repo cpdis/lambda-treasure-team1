@@ -5,10 +5,14 @@ import map_data from "../data/map_data.json";
 import styled, { keyframes } from "styled-components";
 
 class Map extends Component {
-  state = {
-    links: [],
-    coordinates: []
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      links: [],
+      coordinates: []
+    };
+  }
   componentDidMount() {
     // Create arrays to hold point coordinates and links
     const coordinates = [];

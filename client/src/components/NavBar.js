@@ -52,15 +52,6 @@ function NavBar(props) {
           >
             Home
           </Link>
-          <Link
-            component={RouterLink}
-            to="/about"
-            style={{ textDecoration: "none" }}
-            color="secondary"
-            className={classes.button}
-          >
-            About
-          </Link>
         </Toolbar>
       </AppBar>
     </div>
