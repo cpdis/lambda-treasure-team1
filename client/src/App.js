@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router";
 import axios from "axios";
 import NavBar from "./components/NavBar";
-import Commands from "./components/Commands";
+// import Commands from "./components/Commands";
 import Info from "./components/Info";
 import { CssBaseline } from "@material-ui/core";
 import "./App.css";
@@ -24,7 +24,7 @@ class App extends Component {
         items: [],
         cooldown: 5,
         players: [],
-        exits: {}
+        exits: []
       },
       player: {
         name: "",
@@ -60,7 +60,7 @@ class App extends Component {
         let title = res.data.title;
         let elevation = res.data.elevation;
         let coordinates = res.data.coordinates;
-        let cooldown = res.data.cooldown;
+        let coolDown = res.data.cooldown;
         let players = res.data.players;
 
         this.setState({
@@ -74,41 +74,43 @@ class App extends Component {
             title: title,
             elevation: elevation,
             coordinates: coordinates,
-            cooldown: cooldown,
+            cooldown: coolDown,
             players: players
           }
         });
       })
       .catch(err => console.log("Error getting initial room data", err));
 
-    axios
-      .post(
-        `https://lambda-treasure-hunt.herokuapp.com/api/adv/status`,
-        data,
-        options
-      )
-      .then(res => {
-        console.log(res.data);
-        let playerName = res.data.name;
-        let speed = res.data.speed;
-        let strength = res.data.strength;
-        let inventory = res.data.inventory;
-        let encumbrance = res.data.encumbrance;
-        let messages = res.data.messages;
-        let gold = res.data.gold;
-        this.setState({
-          player: {
-            name: playerName,
-            speed: speed,
-            strength: strength,
-            inventory: inventory,
-            encumbrance: encumbrance,
-            messages: messages,
-            gold: gold
-          }
-        });
-      })
-      .catch(err => console.log("Error getting initial status", err));
+    setTimeout(() => {
+      axios
+        .post(
+          `https://lambda-treasure-hunt.herokuapp.com/api/adv/status`,
+          data,
+          options
+        )
+        .then(res => {
+          console.log(res.data);
+          let playerName = res.data.name;
+          let speed = res.data.speed;
+          let strength = res.data.strength;
+          let inventory = res.data.inventory;
+          let encumbrance = res.data.encumbrance;
+          let messages = res.data.messages;
+          let gold = res.data.gold;
+          this.setState({
+            player: {
+              name: playerName,
+              speed: speed,
+              strength: strength,
+              inventory: inventory,
+              encumbrance: encumbrance,
+              messages: messages,
+              gold: gold
+            }
+          });
+        })
+        .catch(err => console.log("Error getting initial status", err));
+    }, this.state.room.cooldown * 1000);
   }
 
   getStatus = () => {
@@ -120,51 +122,9 @@ class App extends Component {
     };
 
     axios
-      .post(
-        `https://lambda-treasure-hunt.herokuapp.com/api/adv/status`,
-        options
-      )
+      .get(`https://lambda-treasure-hunt.herokuapp.com/api/adv/init`, options)
       .then(res => {
-        let playerName = res.data.name;
-        let speed = res.data.speed;
-        let strength = res.data.strength;
-        let inventory = res.data.inventory;
-        let encumbrance = res.data.encumbrance;
-        let messages = res.data.messages;
-        let gold = res.data.gold;
-
-        this.setState({
-          player: {
-            name: playerName,
-            speed: speed,
-            strength: strength,
-            inventory: inventory,
-            encumbrance: encumbrance,
-            messages: messages,
-            gold: gold
-          }
-        });
-      })
-      .catch(err => console.log("Error in the status() function", err));
-  };
-
-  move = dir => {
-    const options = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${this.state.api_key}`
-      }
-    };
-    const body = JSON.stringify({
-      direction: dir
-    });
-    axios
-      .post(
-        "https://lambda-treasure-hunt.herokuapp.com/api/adv/move",
-        body,
-        options
-      )
-      .then(res => {
+        console.log(res.data);
         let room_id = res.data.room_id;
         let exits = res.data.exits;
         let description = res.data.description;
@@ -174,7 +134,8 @@ class App extends Component {
         let title = res.data.title;
         let elevation = res.data.elevation;
         let coordinates = res.data.coordinates;
-        let cooldown = res.data.cooldown;
+        let coolDown = res.data.cooldown;
+        let players = res.data.players;
 
         this.setState({
           room: {
@@ -187,27 +148,104 @@ class App extends Component {
             title: title,
             elevation: elevation,
             coordinates: coordinates,
-            cooldown: cooldown
+            cooldown: coolDown,
+            players: players
           }
         });
       })
-      .catch(err => {
-        console.log("Error while moving", err);
-      });
+      .catch(err => console.log("Error getting initial room data", err));
+
+    setTimeout(() => {
+      axios
+        .post(
+          `https://lambda-treasure-hunt.herokuapp.com/api/adv/status`,
+          options
+        )
+        .then(res => {
+          let playerName = res.data.name;
+          let speed = res.data.speed;
+          let strength = res.data.strength;
+          let inventory = res.data.inventory;
+          let encumbrance = res.data.encumbrance;
+          let messages = res.data.messages;
+          let gold = res.data.gold;
+
+          this.setState({
+            player: {
+              name: playerName,
+              speed: speed,
+              strength: strength,
+              inventory: inventory,
+              encumbrance: encumbrance,
+              messages: messages,
+              gold: gold
+            }
+          });
+        })
+        .catch(err => console.log("Error in the status() function", err));
+    }, this.state.room.cooldown * 1000);
+  };
+
+  move = dir => {
+    const options = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${this.state.api_key}`
+      }
+    };
+    const body = JSON.stringify({
+      direction: dir
+    });
+
+    setTimeout(() => {
+      axios
+        .post(
+          "https://lambda-treasure-hunt.herokuapp.com/api/adv/move",
+          body,
+          options
+        )
+        .then(res => {
+          let room_id = res.data.room_id;
+          let exits = res.data.exits;
+          let description = res.data.description;
+          let items = res.data.items;
+          let messages = res.data.messages;
+          let terrain = res.data.terrain;
+          let title = res.data.title;
+          let elevation = res.data.elevation;
+          let coordinates = res.data.coordinates;
+          let coolDown = res.data.cooldown;
+
+          this.setState({
+            room: {
+              room_id: room_id,
+              exits: exits,
+              description: description,
+              items: items,
+              messages: messages,
+              terrain: terrain,
+              title: title,
+              elevation: elevation,
+              coordinates: coordinates,
+              cooldown: coolDown
+            }
+          });
+        })
+        .catch(err => {
+          console.log("Error while moving", err);
+        });
+    }, this.state.room.cooldown * 1000);
 
     this.getStatus();
   };
 
   render() {
-    this.state.room.items.forEach(item => {
-      console.log(item);
-    });
     return (
       <div className="App">
         <CssBaseline />
         <NavBar />
         <Map currentRoom={this.state.room.room_id} />
-        <Commands move={this.move} />
+        {/* <Commands move={this.move} getStatus={this.getStatus} /> */}
         <Info player={this.state.player} room={this.state.room} />
       </div>
     );

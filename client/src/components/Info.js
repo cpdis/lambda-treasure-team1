@@ -35,7 +35,7 @@ export class Info extends Component {
           </div>
           <div>
             <strong>Exits:</strong>
-            {this.props.room.items.length < 1 ? (
+            {this.props.room.exits.length < 1 ? (
               <p>There are no exits.</p>
             ) : (
               <ul>

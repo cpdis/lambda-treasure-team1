@@ -15,6 +15,7 @@ class Commands extends Component {
           <Buttons onClick={() => this.props.move("s")}>S</Buttons>
           <Buttons onClick={() => this.props.move("e")}>E</Buttons>
           <Buttons onClick={() => this.props.move("w")}>W</Buttons>
+          <Buttons onClick={() => this.props.getStatus()}>Reload</Buttons>
         </div>
       </CommandStyles>
     );
